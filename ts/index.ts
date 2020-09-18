@@ -19,6 +19,7 @@ const fs = require('fs');
 const logjs = require('logjs');
 const logger = new logjs.logger('default');
 const http = require('http');
+const prompter = require('prompt-sync')();
 
 // standard transport
 logger.transports.add(new logjs.transports.standard({
@@ -50,3 +51,5 @@ This program comes with ABSOLUTELY NO WARRANTY; for details type 'show w'.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type 'show c' for details.`);
 
+var input = prompter('>')
+console.log(input);

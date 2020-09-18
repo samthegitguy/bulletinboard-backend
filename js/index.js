@@ -19,6 +19,7 @@ var fs = require('fs');
 var logjs = require('logjs');
 var logger = new logjs.logger('default');
 var http = require('http');
+var prompter = require('prompt-sync')();
 // standard transport
 logger.transports.add(new logjs.transports.standard({
     colorized: true
@@ -31,4 +32,6 @@ http.createServer(function (req, res) {
 logger.info('Backend ready');
 logger.info('Server started successfully');
 logger.info('Starting REPL mode');
-logger.warn("bulletinboard Copyright (C) 2020 samthegitguy\nThis program comes with ABSOLUTELY NO WARRANTY; for details type 'show w'.\nThis is free software, and you are welcome to redistribute it\nunder certain conditions; type 'show c' for details.");
+logger.warn("\nbulletinboard Copyright (C) 2020 samthegitguy\nThis program comes with ABSOLUTELY NO WARRANTY; for details type 'show w'.\nThis is free software, and you are welcome to redistribute it\nunder certain conditions; type 'show c' for details.");
+var input = prompter('>');
+console.log(input);
