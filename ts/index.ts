@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /*
 Node.js server which allows chat between anonymous users
 Copyright (C) 2020 samthegitguy
@@ -15,13 +16,16 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see https://github.com/samthegitguy/bulletinboard/blob/master/LICENSE
  */
+
 const fs = require('fs');
 const logjs = require('logjs');
 const logger = new logjs.logger('default');
 
 const http = require('http');
 
-const repl = require('repl');
+import args from 'args'
+
+const figlet = require('figlet');
 //
 // deprecated
 // const prompter = require('prompt-sync');
@@ -34,7 +38,14 @@ logger.transports.add(new logjs.transports.standard({
 
 
 logger.info('Server starting');
-
+figlet('BULLETIN BOARD', function(err, data) {
+    if (err) {
+        console.log('Something went wrong...');
+        console.dir(err);
+        return;
+    }
+    console.log(data)
+});
 http.createServer(function (req, res) {
     res.writeHead(418, {'Content-Type': 'text/html'});
     res.end(`
@@ -44,6 +55,7 @@ http.createServer(function (req, res) {
         <script> 
             prompt("hello");
         </script>`);
+    logger.trace('Somebody connected!')
 }).listen(8080);
 
 logger.info('Backend ready');
@@ -56,6 +68,15 @@ bulletinboard Copyright (C) 2020 samthegitguy
 This program comes with ABSOLUTELY NO WARRANTY; for details type 'warranty'.
 This is free software, and you are welcome to redistribute it
 under certain conditions; type 'copyright' for details.`);
+args
+    new Option('port', 'test')
+    
+    
+const flags = args.parse('process.argv');
+
+if (flags.port) {
+    console.log('Running on port ${flags.port}');
+}
 /* deprecated repl
 for (input = 'Starting'; input != 'exit';) {
     try {
@@ -82,7 +103,6 @@ for (input = 'Starting'; input != 'exit';) {
     }
 }
 */
-var local = repl.start("Gnomeware::local>");
 
 logger.info('REPL started');
 
@@ -137,10 +157,9 @@ You may charge any price or no price for each copy that you convey, and you may 
 No covered work shall be deemed part of an effective technological measure under any applicable law fulfilling obligations under article 11 of the WIPO copyright treaty adopted on 20 December 1996, or similar laws prohibiting or restricting circumvention of such measures.
 
 When you convey a covered work, you waive any legal power to forbid circumvention of technological measures to the extent such circumvention is effected by exercising rights under this License with respect to the covered work, and you disclaim any intention to limit operation or modification of the work as a means of enforcing, against the work's users, your or third parties' legal rights to forbid circumvention of technological measures.`
-const warranty : string = `THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+const warranty: string = `THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM “AS IS” WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
 IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MODIFIES AND/OR CONVEYS THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.`
-local.context.warranty = warranty;
-local.context.copyright = copyright;
+
 
 
 
